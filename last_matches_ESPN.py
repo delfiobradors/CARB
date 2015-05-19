@@ -147,7 +147,7 @@ df=pd.read_csv('corners_append.csv')
 competition_list=['SPANISH PRIMERA DIVISIÓN','BARCLAYS PREMIER LEAGUE','ITALIAN SERIE A']
 df = df[(df['competition'].isin(competition_list))]
 #remove any duplicate matches (id)
-df=df.drop_duplicates(cols='id',take_last=True)
+df=df.drop_duplicates(subset='id',take_last=True)
 #drop matches without minc1
 df=df.dropna(subset = ['minc1'])
 #add column for corner before 9 true or false

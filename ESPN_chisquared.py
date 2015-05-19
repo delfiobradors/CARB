@@ -41,7 +41,7 @@ def chisquare_3ligas_on_csv(expected_freq,file):
     #we drop every match where minc1=NaN
     analysis_df=analysis_df.dropna(subset = ['minc1'])
     #remove any duplicate matches (id)
-    analysis_df=analysis_df.drop_duplicates(cols='id',take_last=True)
+    analysis_df=analysis_df.drop_duplicates(subset='id',take_last=True)
     analysis_df=analysis_df[analysis_df.competition.str.startswith(('SPANISH PRIMERA','BARCLAYS','ITALIAN SERIE'))==True]
     total_matches=len(analysis_df)-1
     corner_true=len(analysis_df[analysis_df.minc1<10])
