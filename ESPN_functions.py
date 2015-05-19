@@ -134,20 +134,6 @@ def study_in_chunks(ini,last,step,file):
         print (stop - start)/60
         print "MINUTOS"
     
-study_in_chunks(198950,407000,50,'corners_append.csv')
+study_in_chunks(237250,407000,50,'corners_append.csv')
 
 #350000-401850 fets
-'''
-analysis_df=pd.read_csv(corner_file)
-total_matches=len(analysis_df)-1
-corner_true=len(analysis_df[analysis_df.minc1<10])
-print total_matches,corner_true
-
-expected_odds=1/1.83 #expected 54%
-expected_true=total_matches*expected_odds
-
-observed = np.array([corner_true,total_matches-corner_true])
-expected = np.array([expected_true,total_matches-expected_true])
-
-print scipy.stats.chisquare(observed, expected)
-'''
