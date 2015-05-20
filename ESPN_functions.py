@@ -134,6 +134,6 @@ def study_in_chunks(ini,last,step,file):
         print (stop - start)/60
         print "MINUTOS"
     
-study_in_chunks(238650,407000,50,'corners_append.csv')
+study_in_chunks(293100,407000,50,'corners_append.csv')
 
 #350000-401850 fets
