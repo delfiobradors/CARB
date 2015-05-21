@@ -53,7 +53,7 @@ df=pd.read_csv('corners_append.csv')
 competition_list=['SPANISH PRIMERA DIVISIÓN','BARCLAYS PREMIER LEAGUE','ITALIAN SERIE A']
 df = df[(df['competition'].isin(competition_list))]
 #remove any duplicate matches (id)
-df=df.drop_duplicates(cols='id',take_last=True)
+df=df.drop_duplicates(subset='id',take_last=True)
 #drop matches without minc1
 df=df.dropna(subset = ['minc1'])
 #add column for corner before 9 true or false
@@ -62,6 +62,35 @@ df['corner9']=df.minc1<10
 convert_dates(df)
 #reset indexes to be able to run the for loop
 df = df.reset_index(drop=True)
+'''
+[AC Milan]	[Fiorentina]
+[Atalanta]	[Siena]
+[Cagliari]	[Internazionale]
+[Cesena]	[Bologna]
+[Chievo Verona]	[Catania]
+[Lazio]	[Napoli]
+[Lecce]	[AS Roma]
+[Novara]	[Genoa]
+[Palermo]	[Juventus]
+[Udinese]	[Parma]
+[Bologna]	[Palermo]
+[Cagliari]	[Atalanta]
+[Catania]	[AC Milan]
+[Fiorentina]	[Chievo Verona]
+[Internazionale]	[Genoa]
+[Juventus]	[Napoli]
+[Lecce]	[Cesena]
+[Parma]	[Lazio]
+[AS Roma]	[Novara]
+[Siena]	[Udinese]
+[AC Milan]	[AS Roma]
+[Atalanta]	[Bologna]
+[Cesena]	[Parma]
+[Chievo Verona]	[Siena]
+[Genoa]	[Fiorentina]
+[Juventus]	[Internazionale]
 
-team_list=['[Barcelona]','[Almeria]']
+
+'''
+team_list=['[AS Roma]','[Lazio]']
 print return_pct_last_matches(df,30,team_list)
