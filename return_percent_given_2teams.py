@@ -92,5 +92,21 @@ df = df.reset_index(drop=True)
 
 
 '''
-team_list=['[AS Roma]','[Lazio]']
-print return_pct_last_matches(df,30,team_list)
+JV='[Juventus]'
+NP='[Napoli]'
+ASRM='[AS Roma]'
+LZ='[Lazio]'
+#perform the calculation at once for several matches
+match1=[ASRM,LZ]
+match2=[JV,NP]
+match3=[JV,NP]
+match4=[JV,NP]
+match5=[JV,NP]
+#print return_pct_last_matches(df,30,team_list)
+
+matches_list=[match1,match2,match3,match4,match5]
+for match in matches_list:
+    print match
+    print return_pct_last_matches(df,4000,match)
+print filter_two_teams(df,match1)
+#con el len() de esto podria mirar si tengo o no los 30 partidos

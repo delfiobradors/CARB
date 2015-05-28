@@ -133,7 +133,30 @@ def study_in_chunks(ini,last,step,file):
         stop = timeit.default_timer()
         print (stop - start)/60
         print "MINUTOS"
-    
-study_in_chunks(380000,404000,50,'corners_append.csv')
 
-#350000-401850 fets
+def get_ids(date_number):
+    from lxml import html
+    import requests
+    date_number=str(date_number)
+    page = requests.get('http://www.espnfc.com/scores?date='+date_number)
+    tree = html.fromstring(page.text)
+    return tree.xpath('//div[@class="score full"]/@data-gameid')
+
+def study_date(date,corner_file):
+    ids2=get_ids(date)
+    ids=pd.Series(ids2)
+    analysis_range=select_ids(ids,corner_file)
+    chunk_df=analyze_chunk(analysis_range)
+    #append results to file if there are any
+    try:
+        #select_matches_append(chunk_df,corner_file)
+        append_to_csv(corner_file,chunk_df)
+    except:
+        print "NOTHING ADDED"
+
+
+#para hacerlo a saco    
+#study_in_chunks(387600,404000,50,'corners_append.csv')
+
+#para buscar los ids en una fecha y extraer ESOS
+study_date(20150503,'corners_append.csv')
