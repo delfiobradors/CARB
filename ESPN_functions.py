@@ -151,12 +151,25 @@ def study_date(date,corner_file):
     try:
         #select_matches_append(chunk_df,corner_file)
         append_to_csv(corner_file,chunk_df)
+        print "STUDIED"
+        print date
+        print "Added"
+        print len(chunk_df)
     except:
         print "NOTHING ADDED"
+    
 
-
+def several_dates(datelist,corner_file):
+    for date in datelist:
+        study_date(date,corner_file)
+    
 #para hacerlo a saco    
 #study_in_chunks(387600,404000,50,'corners_append.csv')
 
 #para buscar los ids en una fecha y extraer ESOS
-study_date(20150503,'corners_append.csv')
+#study_date(20150503,'corners_append.csv')
+
+#para hacerlo con muchas fechas
+datelist=(20150503,20150504,20150505,20150506)
+several_dates(datelist,'corners_append.csv')
+        
