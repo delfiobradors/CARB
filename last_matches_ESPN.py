@@ -49,7 +49,7 @@ def filter_involved_teams_older_matches(df,ind):
     team_list=[team_home,team_away]
     x = df[(df['team_home'].isin(team_list)) | (df['team_away'].isin(team_list))]
     #eliminate the newer dates than the studied date
-    x=x[x.date < date_of_row]
+    x=x[x.date <= date_of_row]
     #sort with the newest matches on top
     x=x.sort_index(by=['date'], ascending=[False])
     return x
@@ -81,7 +81,7 @@ def filter_team_home_older_matches(df,ind):
     team_list=[team_home]
     x = df[(df['team_home'].isin(team_list)) | (df['team_away'].isin(team_list))]
     #eliminate the newer dates than the studied date
-    x=x[x.date < date_of_row]
+    x=x[x.date <= date_of_row]
     #sort with the newest matches on top
     x=x.sort_index(by=['date'], ascending=[False])
     return x
@@ -113,7 +113,7 @@ def filter_team_away_older_matches(df,ind):
     team_list=[team_away]
     x = df[(df['team_home'].isin(team_list)) | (df['team_away'].isin(team_list))]
     #eliminate the newer dates than the studied date
-    x=x[x.date < date_of_row]
+    x=x[x.date <= date_of_row]
     #sort with the newest matches on top
     x=x.sort_index(by=['date'], ascending=[False])
     return x
@@ -137,6 +137,14 @@ def add_last_matches_team_away(df,num_matches):
         df.loc[index,'last_matches_team_away'] = percent
     return df
 
+#delete brackets
+def remove_brackets(string):
+    try:
+        string2=string.replace("[", "")
+        string3=string2.replace("]","")
+        return int(string3)
+    except:
+        return np.nan
 
 #read file
 df=pd.read_csv('corners_append.csv')
@@ -158,13 +166,80 @@ convert_dates(df)
 df = df.reset_index(drop=True)
 print df
 #calculate and add last matches
-df=add_last_matches_any(df,30)
+df=add_last_matches_any(df,5)
 print df
-df=add_last_matches_team_home(df,30)
-df=add_last_matches_team_away(df,30)
+
+df=add_last_matches_team_home(df,5)
+df=add_last_matches_team_away(df,5)
 df=df.sort_index(by=['date'], ascending=[False])
 print df
 
-#fer el mateix pero per els ultims x partits en els que ha estat involucrat team_home i team_away
+#remove brackets for number of corners
+df.corners_away=df.corners_away.apply(remove_brackets)
+df.corners_home=df.corners_home.apply(remove_brackets)
+print df
+
+#filter out games older than 2 years
+d=datetime.date(2013, 1, 1)
+df=df[df.date >= d]
+print df
+
+#machine learning!
+'''
+#get the results
+y = df.corner9
+
+perm = np.random.permutation(y.size)
+print perm
+PRC = 0.7
+split_point = int(np.ceil(y.shape[0]*PRC))
+#drop what I can't know beforehand
+df = df.drop('minc1', 1)
+df = df.drop('id', 1)
+df = df.drop('date', 1)
+df = df.drop('corners_away', 1)
+df = df.drop('corners_home', 1)
+df = df.drop('corner9', 1)
+df = df.reset_index(drop=True)
+print df
+
+from sklearn.ensemble import RandomForestClassifier
+
+df['is_train'] = np.random.uniform(0, 1, len(df)) <= .75
+ 
+train, test = df[df['is_train']==True], df[df['is_train']==False]
+ 
+features = df.columns[:4]
+clf = RandomForestClassifier(n_jobs=2)
+y, _ = pd.factorize(train['species'])
+clf.fit(train[features], y)
+ 
+preds = iris.target_names[clf.predict(test[features])]
+pd.crosstab(test['species'], preds, rownames=['actual'], colnames=['preds'])
+
+X = df
+X_train = X[perm[:split_point].ravel(),:]
+y_train = y[perm[:split_point].ravel()]
+
+X_test = X[perm[split_point:].ravel(),:]
+y_test = y[perm[split_point:].ravel()]
+
+#Train a classifier on training data
+from sklearn import neighbors
+knn = neighbors.KNeighborsClassifier(n_neighbors=1)
+knn.fit(X_train,y_train)
+
+#Check on the training set and visualize performance
+yhat=knn.predict(X_train)
+from sklearn import metrics
+import matplotlib.pyplot as plt
+print "\nTRAINING STATS:"
+print "classification accuracy:", metrics.accuracy_score(yhat, y_train)
+plt.imshow(metrics.confusion_matrix(y_train, yhat),
+               cmap=plt.cm.binary, interpolation='nearest')
+plt.xlabel('Training confusion matrix')
+plt.colorbar()
+
+'''
 #afegir filtre per lligues
 #fer funcio on li passi arxiu de dataframe, llista de competis, llista dels equips implicats i em torni els last x
