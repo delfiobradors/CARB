@@ -1,6 +1,6 @@
 # corners_arbitrage
 
-This repository is my capstone project for the Data Science and Big Data course in Universitat de Barcelona.
+This repository is a side project for the Data Science and Big Data course in Universitat de Barcelona.
 
 The idea is to gain advantage on bets regarding minute of first corner of a given match.
 
@@ -30,3 +30,5 @@ The third selection was done taking into account the leagues where the percentag
 The code and results are in "ESPN_chisquared.py". Significance was found.
 
 Third step is going to be to apply Machine Learning to try to predict the likelihood of a corner on a given match.
+
+I also created an easy way to extract the info of last events given the next matches. This will make it easy to input the matches on a given day and try to predict croner-before-9 likeihood.
