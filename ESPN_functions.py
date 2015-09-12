@@ -164,12 +164,17 @@ def several_dates(datelist,corner_file):
         study_date(date,corner_file)
     
 #para hacerlo a saco    
-study_in_chunks(447050,500000,50,'corners_append.csv')
-
+#study_in_chunks(396200,419900,50,'corners_append.csv')
+study_in_chunks(426800,434300,50,'corners_append.csv')
+study_in_chunks(424200,424800,50,'corners_append.csv')
+study_in_chunks(393300,393800,50,'corners_append.csv')
 #para buscar los ids en una fecha y extraer ESOS
-#study_date(20150503,'corners_append.csv')
+#study_date(20150828,'corners_append.csv')
+#study_date(20150829,'corners_append.csv')
+#study_date(20150830,'corners_append.csv')
+#study_date(20150831,'corners_append.csv')
 
 #para hacerlo con muchas fechas
-#datelist=(20150503,20150504,20150505,20150506)
+#datelist=(20150821,20150822,20150823,20150824)
 #several_dates(datelist,'corners_append.csv')
         
