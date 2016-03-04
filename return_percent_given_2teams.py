@@ -33,11 +33,11 @@ def filter_two_teams(df,team_list):
     #select rows where home team played as homoe and away team played as away
 
     #MIRO CASA:
-    x = df[(df['team_home']==team_list[0])]
+    #x = df[(df['team_home']==team_list[0])]
     #MIRO AMBOS:
     #x = df[(df['team_home']==team_list[0]) | (df['team_away']==team_list[1])]
     #MIRO FUERA:
-    #x = df[(df['team_away']==team_list[1])]
+    x = df[(df['team_away']==team_list[1])]
     #sort with the newest matches on top
     x=x.sort_index(by=['date'], ascending=[False])
     return x
@@ -68,7 +68,7 @@ df=df.drop_duplicates(subset='id',take_last=True)
 #drop matches without minc1
 df=df.dropna(subset = ['minc1'])
 #add column for corner before 9 true or false
-df['corner9']=df.minc1<10
+df['corner9']=df.minc1<11
 #convert dates to be able to sort and compare
 convert_dates(df)
 #reset indexes to be able to run the for loop
@@ -98,16 +98,16 @@ RMA='[Real Madrid]'
 RBE='[Real Betis]'
 LPA='[Las Palmas]'
 
-match1=[MAL,GET]
-match2=[ATM,EIB]
-match3=[RAY,LPA]
-match4=[ATB,VIL]
-match5=[SPO,DEP]
-match6=[LEV,BAR]
-match7=[RBE,VAL]
-match8=[CEL,SEV]
-match9=[GRA,RMA]
-match10=[ESP,RSO]
+match1=[RMA,CEL]
+match2=[VIL,LPA]
+match3=[GET,SEV]
+match4=[DEP,MAL]
+match5=[RBE,GRA]
+match6=[EIB,BAR]
+match7=[RSO,LEV]
+match8=[SPO,ATB]
+match9=[VAL,ATM]
+match10=[ESP,RAY]
 
 JUV='[Juventus]'
 NAP='[Napoli]'
@@ -132,16 +132,16 @@ VER='[Hellas Verona]'
 CHI='[Chievo Verona]'
 CAR='[Carpi]'
 
-match21=[BOL,FIO]
-match22=[GEN,LAZ]
-match23=[VER,INT]
-match24=[NAP,CAR]
-match25=[SAU,PAL]
-match26=[FRO,JUV]
-match27=[TOR,CHI]
-match28=[MIL,UDI]
-match29=[ATA,EMP]
-match30=[ASR,SAM]
+match21=[ASR,FIO]
+match22=[VER,SAM]
+match23=[NAP,CHI]
+match24=[TOR,LAZ]
+match25=[SAU,MIL]
+match26=[BOL,CAR]
+match27=[ATA,JUV]
+match28=[GEN,EMP]
+match29=[FRO,UDI]
+match30=[INT,PAL]
 
 MAN='[Manchester United]'
 NCS='[Newcastle United]'
@@ -164,16 +164,16 @@ SOU='[Southampton]'
 ARS='[Arsenal]'
 LIV='[Liverpool]'
 
-match41=[MCT,LEI]
-match42=[ASV,NOR]
-match43=[SWA,CPL]
-match44=[STO,EVE]
-match45=[SOU,WHM]
-match46=[NCS,WBR]
-match47=[LIV,SUN]
-match48=[TOT,WFD]
-match49=[BMT,ARS]
-match50=[CHE,MAN]
+match41=[TOT,ARS]
+match42=[CHE,STO]
+match43=[SWA,NOR]
+match44=[SOU,SUN]
+match45=[NCS,BMT]
+match46=[MCT,ASV]
+match47=[EVE,WHM]
+match48=[WFD,LEI]
+match49=[CPL,LIV]
+match50=[WBR,MAN]
 
 MAI='[Mainz]'
 HOF='[TSG Hoffenheim]'
@@ -194,15 +194,15 @@ BMU='[Bayern Munich]'
 AUG='[FC Augsburg]'
 HAN='[Hannover 96]'
 
-match61=[BMO,WBR]
-match62=[SCH,WOL]
-match63=[FRA,STU]
-match64=[HAN,MAI]
-match65=[HBE,BDO]
-match66=[ING,AUG]
-match67=[BLE,BMU]
-match68=[HAM,COL]
-match69=[HOF,DAR]
+match61=[WOL,BMO]
+match62=[STU,HOF]
+match63=[AUG,BLE]
+match64=[WER,HAN]
+match65=[FRA,ING]
+match66=[COL,SCH]
+match67=[BDO,BMU]
+match68=[MAI,DAR]
+match69=[HAM,HBE]
 
 '''
 SRN='[Stade Rennes]'
@@ -280,10 +280,6 @@ match102=[LEE,MKD]
 #print return_pct_last_matches(df,30,team_list)
 
 matches_list=[match1,match2,match3,match4,match5,match6,match7,match8,match9,match10,match21,match22,match23,match24,match25,match26,match27,match28,match29,match30,match41,match42,match43,match44,match45,match46,match47,match48,match49,match50,match61,match62,match63,match64,match65,match66,match67,match68,match69]
-#matches_list=[match21,match22,match23,match24,match25,match26,match27,match28,match29,match30,match41,match42,match43,match44,match45,match46,match47,match48,match49,match50]
-
-#matches_list=[match91,match92,match93,match94,match95,match96,match97,match98,match99,match100,match101,match102]
-
 
 for match in matches_list:
     print match
