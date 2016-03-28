@@ -5,8 +5,6 @@ import requests
 import pandas as pd
 import numpy as np
 import time
-import scipy
-from scipy import stats
 
 processed_match=pd.Series()
 
@@ -35,6 +33,9 @@ def extract_commentary_ESPN(id):
 #remove the last two characters of "times" column
 def delete_last(a):
     return (a[:-1])
+    
+def delete_first_last(a):
+    return (a[1:-1])
 
 #calculate minute of first corner
 def calculate_minc1(df):
@@ -233,7 +234,7 @@ datelist=(20151101,20151102,20151103,20151104,20151105,20151106,20151107,2015110
 several_dates(datelist,'corners_append.csv')
 datelist=(20151201,20151202,20151203,20151204,20151205,20151206,20151207,20151208,20151209,20151210,20151211,20151212,20151213,20151214,20151215,20151216,20151217,20151218,20151219,20151220,20151221,20151222,20151223,20151224,20151225,20151226,20151227,20151228,20151229,20151230,20151231)
 several_dates(datelist,'corners_append.csv')
-'''
+
 #2016
 #datelist=(20160101,20160102,20160103,20160104,20160105,20160106,20160107,20160108,20160109,20160110,20160111,20160112,20160113,20160114,20160115,20160116,20160117,20160118,20160119,20160120,20160121,20160122,20160123,20160124,20160125,20160126,20160127,20160128,20160129,20160130,20160131)
 #several_dates(datelist,'corners_append.csv')
@@ -244,11 +245,7 @@ datelist=(20160201,20160202,20160203,20160204,20160205,20160206,20160207,2016020
 several_dates(datelist,'corners_append.csv')
 datelist=(20160301,20160302,20160303,20160304,20160305,20160306,20160307)
 several_dates(datelist,'corners_append.csv')
-
 '''
 
-
-#print process_match(433703)
-#datelist=(20160304,20160305,20160306,20160307)
-#several_dates(datelist,'corners_append.csv')
-'''
+datelist=(20160321,201603022,20160323,20160324,20160325,20160326)
+several_dates(datelist,'corners_append.csv')
