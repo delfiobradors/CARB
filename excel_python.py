@@ -135,6 +135,11 @@ def return_pct_last_matches_away(df,num_matches,team_list):
     return percent
 
 MAL='[Málaga]'
+
+OSA='[Osasuna]'
+ALA='[Alaves]'
+LEG='[Leganes]'
+
 SEV='[Sevilla FC]'
 ESP='[Espanyol]'
 GET='[Getafe]'
@@ -155,16 +160,16 @@ RMA='[Real Madrid]'
 RBE='[Real Betis]'
 LPA='[Las Palmas]'
 
-match1=[VAL,RSO]
-match2=[DEP,RMA]
-match3=[GRA,BAR]
-match4=[ATB,SEV]
-match5=[ATM,CEL]
-match6=[MAL,LPA]
-match7=[SPO,VIL]
-match8=[RBE,GET]
-match9=[RAY,LEV]
-match10=[ESP,EIB]
+match1=[MAL,OSA]
+match2=[DEP,EIB]
+match3=[GRA,VIL]
+match4=[SEV,ESP]
+match5=[SPO,ATB]
+match6=[RSO,RMA]
+match7=[ATM,ALA]
+match8=[CEL,LEG]
+match9=[VAL,LPA]
+match10=[BAR,GRA]
 
 JUV='[Juventus]'
 NAP='[Napoli]'
@@ -189,17 +194,6 @@ VER='[Hellas Verona]'
 CHI='[Chievo Verona]'
 CAR='[Carpi]'
 
-match21=[JUV,SAM]
-match22=[NAP,FRO]
-match23=[MIL,ASR]
-match24=[GEN,ATA]
-match25=[CHI,BOL]
-match26=[EMP,TOR]
-match27=[UDI,CAR]
-match28=[LAZ,FIO]
-match29=[PAL,VER]
-match30=[SAU,INT]
-
 MAN='[Manchester United]'
 NCS='[Newcastle United]'
 CPL='[Crystal Palace]'
@@ -220,16 +214,33 @@ WFD='[Watford]'
 SOU='[Southampton]'
 ARS='[Arsenal]'
 LIV='[Liverpool]'
+HUL='[Hull City]'
 
-match41=[ARS,ASV]
-match42=[WFD,SUN]
-match43=[SWA,MCT]
-match45=[STO,WHM]
-match46=[SOU,CPL]
-match47=[NCS,TOT]
-match48=[MAN,BMT]
-match49=[EVE,NOR]
-match50=[CHE,LEI]
+MID='[Middlesbrough]'
+
+BUR='[Burnley]'
+
+match21=[MAN,SOU]
+match22=[STO,MCT]
+match23=[BUR,LIV]
+match24=[WBR,EVE]
+match25=[TOT,CPL]
+match26=[SWA,HUL]
+match27=[WFD,CHE]
+match28=[LEI,ARS]
+match29=[SUN,MID]
+match30=[WHM,BMT]
+
+match41=[HUL,LEI]
+match42=[SOU,WFD]
+match43=[EVE,TOT]
+match44=[CHE,WHM]
+match45=[CPL,WBR]
+match46=[MID,STO]
+match47=[BUR,SWA]
+match48=[MCT,SUN]
+match49=[BMT,MAN]
+match50=[ARS,LIV]
 
 MAI='[Mainz]'
 HOF='[TSG Hoffenheim]'
@@ -250,7 +261,7 @@ BMU='[Bayern Munich]'
 AUG='[FC Augsburg]'
 HAN='[Hannover 96]'
 
-match61=[BMU,HAN]
+match61=[CHE,WHM]
 match62=[BDO,COL]
 match63=[BLE,ING]
 match64=[WOL,STU]
