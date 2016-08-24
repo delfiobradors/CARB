@@ -247,9 +247,7 @@ several_dates(datelist,'corners_append.csv')
 '''
 
 
-datelist=(20160701,20160702,20160703,20160704,20160705,20160706)
+datelist=(20160813,20160814,20160815,20160816,20160817,20160818)
 several_dates(datelist,'corners_append.csv')
-datelist=(20160707,20160708,20160709,20160710,20160711,20160712)
-several_dates(datelist,'corners_append.csv')
-datelist=(20160713,20160714,20160715,20160716,20160717)
+datelist=(20160819,20160820,20160821,20160822)
 several_dates(datelist,'corners_append.csv')

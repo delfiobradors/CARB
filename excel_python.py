@@ -135,11 +135,9 @@ def return_pct_last_matches_away(df,num_matches,team_list):
     return percent
 
 MAL='[Málaga]'
-
 OSA='[Osasuna]'
-ALA='[Alaves]'
+ALA='[Alavés]'
 LEG='[Leganes]'
-
 SEV='[Sevilla FC]'
 ESP='[Espanyol]'
 GET='[Getafe]'
@@ -160,16 +158,16 @@ RMA='[Real Madrid]'
 RBE='[Real Betis]'
 LPA='[Las Palmas]'
 
-match1=[MAL,OSA]
-match2=[DEP,EIB]
-match3=[GRA,VIL]
-match4=[SEV,ESP]
-match5=[SPO,ATB]
-match6=[RSO,RMA]
-match7=[ATM,ALA]
-match8=[CEL,LEG]
-match9=[VAL,LPA]
-match10=[BAR,GRA]
+match1=[RBE,DEP]
+match2=[ESP,MAL]
+match3=[OSA,RSO]
+match4=[EIB,VAL]
+match5=[RMA,CEL]
+match6=[LEG,ATM]
+match7=[ALA,SPO]
+match8=[LPA,GRA]
+match9=[ATB,BAR]
+match10=[VIL,SEV]
 
 JUV='[Juventus]'
 NAP='[Napoli]'
@@ -193,6 +191,20 @@ GEN='[Genoa]'
 VER='[Hellas Verona]'
 CHI='[Chievo Verona]'
 CAR='[Carpi]'
+PES='[US Pescara]'
+CAG='[Cagliari]'
+CRO='[Crotone]'
+
+match21=[LAZ,JUV]
+match22=[NAP,MIL]
+match23=[INT,PAL]
+match24=[TOR,BOL]
+match25=[SAM,ATA]
+match26=[SAU,PES]
+match27=[CAG,ASR]
+match28=[FIO,CHI]
+match29=[CRO,GEN]
+match30=[UDI,EMP]
 
 MAN='[Manchester United]'
 NCS='[Newcastle United]'
@@ -215,32 +227,22 @@ SOU='[Southampton]'
 ARS='[Arsenal]'
 LIV='[Liverpool]'
 HUL='[Hull City]'
-
 MID='[Middlesbrough]'
-
 BUR='[Burnley]'
 
-match21=[MAN,SOU]
-match22=[STO,MCT]
-match23=[BUR,LIV]
-match24=[WBR,EVE]
-match25=[TOT,CPL]
-match26=[SWA,HUL]
-match27=[WFD,CHE]
-match28=[LEI,ARS]
-match29=[SUN,MID]
-match30=[WHM,BMT]
+match41=[TOT,LIV]
+match42=[LEI,SWA]
+match43=[CPL,BMT]
+match44=[WFD,ARS]
+match45=[SOU,SUN]
+match46=[EVE,STO]
+match47=[CHE,BUR]
+match48=[HUL,MAN]
+match49=[WBR,MID]
+match50=[MCT,WHM]
 
-match41=[HUL,LEI]
-match42=[SOU,WFD]
-match43=[EVE,TOT]
-match44=[CHE,WHM]
-match45=[CPL,WBR]
-match46=[MID,STO]
-match47=[BUR,SWA]
-match48=[MCT,SUN]
-match49=[BMT,MAN]
-match50=[ARS,LIV]
+FRE='[FREIBURG]'
+LPZ='[LEIPZIG]'
 
 MAI='[Mainz]'
 HOF='[TSG Hoffenheim]'
@@ -261,15 +263,15 @@ BMU='[Bayern Munich]'
 AUG='[FC Augsburg]'
 HAN='[Hannover 96]'
 
-match61=[CHE,WHM]
-match62=[BDO,COL]
-match63=[BLE,ING]
-match64=[WOL,STU]
-match65=[AUG,HAM]
-match66=[WER,FRA]
-match67=[HOF,SCH]
-match68=[MAI,HBE]
-match69=[DAR,BMO]
+match61=[BMU,WER]
+match62=[BDO,MAI]
+match63=[COL,DAR]
+match64=[HAM,ING]
+match65=[AUG,WOL]
+match66=[FRA,SCH]
+match67=[BMO,BLE]
+match68=[HBE,FRE]
+match69=[HOF,LPZ]
 
 df=pd.read_csv('corners_append.csv')
 #PREPARE THE FILE TO RUN FUNCTIONS TO ADD COLUMNS OF LAST MATCHES PCT
