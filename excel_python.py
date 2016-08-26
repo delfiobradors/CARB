@@ -277,7 +277,7 @@ df=pd.read_csv('corners_append.csv')
 #PREPARE THE FILE TO RUN FUNCTIONS TO ADD COLUMNS OF LAST MATCHES PCT
 
 #filter chosen competitions
-competition_list=['SPANISH PRIMERA DIVISIÓN','BARCLAYS PREMIER LEAGUE','ITALIAN SERIE A','GERMAN BUNDESLIGA','FRENCH LIGUE 1']
+competition_list=['SPANISH PRIMERA DIVISIÓN','BARCLAYS PREMIER LEAGUE','ENGLISH PREMIER LEAGUE','ITALIAN SERIE A','GERMAN BUNDESLIGA','FRENCH LIGUE 1']
 #competition_list=['ENGLISH LEAGUE CHAMPIONSHIP']
 df = df[(df['competition'].isin(competition_list))]
 #remove any duplicate matches (id)

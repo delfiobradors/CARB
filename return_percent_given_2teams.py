@@ -33,11 +33,11 @@ def filter_two_teams(df,team_list):
     #select rows where home team played as homoe and away team played as away
 
     #MIRO CASA:
-    x = df[(df['team_home']==team_list[0])]
+    #x = df[(df['team_home']==team_list[0])]
     #MIRO AMBOS:
     #x = df[(df['team_home']==team_list[0]) | (df['team_away']==team_list[1])]
     #MIRO FUERA:
-    #x = df[(df['team_away']==team_list[1])]
+    x = df[(df['team_away']==team_list[1])]
     #sort with the newest matches on top
     x=x.sort_index(by=['date'], ascending=[False])
     return x
@@ -60,7 +60,7 @@ df=pd.read_csv('corners_append.csv')
 #PREPARE THE FILE TO RUN FUNCTIONS TO ADD COLUMNS OF LAST MATCHES PCT
 
 #filter chosen competitions
-competition_list=['SPANISH PRIMERA DIVISIÓN','BARCLAYS PREMIER LEAGUE','ITALIAN SERIE A','GERMAN BUNDESLIGA','FRENCH LIGUE 1']
+competition_list=['SPANISH PRIMERA DIVISIÓN','ENGLISH PREMIER LEAGUE','BARCLAYS PREMIER LEAGUE','ITALIAN SERIE A','GERMAN BUNDESLIGA','FRENCH LIGUE 1']
 #competition_list=['ENGLISH LEAGUE CHAMPIONSHIP']
 df = df[(df['competition'].isin(competition_list))]
 #remove any duplicate matches (id)
@@ -79,6 +79,9 @@ df = df.reset_index(drop=True)
 '''
 
 MAL='[Málaga]'
+OSA='[Osasuna]'
+ALA='[Alavés]'
+LEG='[Leganes]'
 SEV='[Sevilla FC]'
 ESP='[Espanyol]'
 GET='[Getafe]'
@@ -99,16 +102,16 @@ RMA='[Real Madrid]'
 RBE='[Real Betis]'
 LPA='[Las Palmas]'
 
-match1=[RAY,GET]
-match2=[ATM,RBE]
-match3=[LPA,VAL]
-match4=[BAR,RMA]
-match5=[CEL,DEP]
-match6=[ATB,GRA]
-match7=[MAL,ESP]
-match8=[EIB,VIL]
-match9=[SEV,RSO]
-match10=[LEV,SPO]
+match1=[DEP,RBE]
+match2=[ESP,MAL]
+match3=[OSA,RSO]
+match4=[EIB,VAL]
+match5=[RMA,CEL]
+match6=[LEG,ATM]
+match7=[ALA,SPO]
+match8=[LPA,GRA]
+match9=[ATB,BAR]
+match10=[VIL,SEV]
 
 JUV='[Juventus]'
 NAP='[Napoli]'
@@ -132,17 +135,20 @@ GEN='[Genoa]'
 VER='[Hellas Verona]'
 CHI='[Chievo Verona]'
 CAR='[Carpi]'
+PES='[US Pescara]'
+CAG='[Cagliari]'
+CRO='[Crotone]'
 
-match21=[CAR,SAU]
-match22=[JUV,EMP]
-match23=[UDI,NAP]
-match24=[FIO,SAM]
-match25=[LAZ,ASR]
-match26=[CHI,PAL]
-match27=[ATA,MIL]
-match28=[GEN,FRO]
-match29=[INT,TOR]
-match30=[BOL,VER]
+match21=[LAZ,JUV]
+match22=[NAP,MIL]
+match23=[INT,PAL]
+match24=[TOR,BOL]
+match25=[SAM,ATA]
+match26=[SAU,PES]
+match27=[CAG,ASR]
+match28=[FIO,CHI]
+match29=[GEN,CRO]
+match30=[UDI,EMP]
 
 MAN='[Manchester United]'
 NCS='[Newcastle United]'
@@ -164,17 +170,23 @@ WFD='[Watford]'
 SOU='[Southampton]'
 ARS='[Arsenal]'
 LIV='[Liverpool]'
+HUL='[Hull City]'
+MID='[Middlesbrough]'
+BUR='[Burnley]'
 
-match41=[ASV,CHE]
-match42=[ARS,WFD]
-match43=[SUN,WBR]
-match44=[STO,SWA]
-match45=[NOR,NCS]
-match46=[WHM,CPL]
-match47=[BMT,MCT]
-match48=[LIV,TOT]
-match49=[LEI,SOU]
-match50=[MAN,EVE]
+match41=[TOT,LIV]
+match42=[LEI,SWA]
+match43=[CPL,BMT]
+match44=[WFD,ARS]
+match45=[SOU,SUN]
+match46=[EVE,STO]
+match47=[CHE,BUR]
+match48=[HUL,MAN]
+match49=[WBR,MID]
+match50=[MCT,WHM]
+
+FRE='[FREIBURG]'
+LPZ='[LEIPZIG]'
 
 MAI='[Mainz]'
 HOF='[TSG Hoffenheim]'
@@ -195,15 +207,15 @@ BMU='[Bayern Munich]'
 AUG='[FC Augsburg]'
 HAN='[Hannover 96]'
 
-match61=[BLE,WOL]
-match62=[BMU,FRA]
-match63=[HAN,HAM]
-match64=[MAI,AUG]
-match65=[ING,SCH]
-match66=[DAR,STU]
-match67=[BDO,WER]
-match68=[BMO,HBE]
-match69=[HOF,COL]
+match61=[BMU,WER]
+match62=[BDO,MAI]
+match63=[COL,DAR]
+match64=[HAM,ING]
+match65=[AUG,WOL]
+match66=[FRA,SCH]
+match67=[BMO,BLE]
+match68=[HBE,FRE]
+match69=[HOF,LPZ]
 
 #perform the calculation at once for several matches
 #print return_pct_last_matches(df,30,team_list)
@@ -214,7 +226,7 @@ for match in matches_list:
     print match
     print return_pct_last_matches(df,30,match)
     print len(filter_two_teams(df,match))
-#print filter_two_teams(df,match6)
+print filter_two_teams(df,match29)
 #con el len() de esto podria mirar si tengo o no los 30 partidos
    
 #para intentar hacer el filtro de df a partir de una fecha
