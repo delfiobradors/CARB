@@ -158,16 +158,16 @@ RMA='[Real Madrid]'
 RBE='[Real Betis]'
 LPA='[Las Palmas]'
 
-match1=[RBE,DEP]
-match2=[ESP,MAL]
-match3=[OSA,RSO]
-match4=[EIB,VAL]
-match5=[RMA,CEL]
-match6=[LEG,ATM]
-match7=[ALA,SPO]
-match8=[LPA,GRA]
-match9=[ATB,BAR]
-match10=[VIL,SEV]
+match1=[RBE,LPA]
+match2=[DEP,SEV]
+match3=[BAR,MAL]
+match4=[EIB,CEL]
+match5=[ATM,RMA]
+match6=[ALA,ESP]
+match7=[VAL,GRA]
+match8=[SPO,RSO]
+match9=[ATB,VIL]
+match10=[LEG,OSA]
 
 JUV='[Juventus]'
 NAP='[Napoli]'
@@ -195,16 +195,16 @@ PES='[US Pescara]'
 CAG='[Cagliari]'
 CRO='[Crotone]'
 
-match21=[LAZ,JUV]
-match22=[NAP,MIL]
-match23=[INT,PAL]
-match24=[TOR,BOL]
-match25=[SAM,ATA]
-match26=[SAU,PES]
-match27=[CAG,ASR]
-match28=[FIO,CHI]
-match29=[CRO,GEN]
-match30=[UDI,EMP]
+match21=[CHI,CAG]
+match22=[UDI,NAP]
+match23=[JUV,PES]
+match24=[SAM,SAU]
+match25=[CRO,TOR]
+match26=[EMP,FIO]
+match27=[BOL,PAL]
+match28=[LAZ,GEN]
+match29=[ATA,ASR]
+match30=[MIL,INT]
 
 MAN='[Manchester United]'
 NCS='[Newcastle United]'
@@ -230,20 +230,19 @@ HUL='[Hull City]'
 MID='[Middlesbrough]'
 BUR='[Burnley]'
 
-match41=[TOT,LIV]
-match42=[LEI,SWA]
-match43=[CPL,BMT]
-match44=[WFD,ARS]
-match45=[SOU,SUN]
-match46=[EVE,STO]
-match47=[CHE,BUR]
-match48=[HUL,MAN]
-match49=[WBR,MID]
-match50=[MCT,WHM]
+match41=[MAN,ARS]
+match42=[SOU,LIV]
+match43=[EVE,SWA]
+match44=[WFD,LEI]
+match45=[SUN,HUL]
+match46=[STO,BMT]
+match47=[CPL,MAN]
+match48=[TOT,WHM]
+match49=[MID,CHE]
+match50=[WBR,BUR]
 
-FRE='[FREIBURG]'
-LPZ='[LEIPZIG]'
-
+LPZ='[RB Leipzig]'
+FRE='[SC Freiburg]'
 MAI='[Mainz]'
 HOF='[TSG Hoffenheim]'
 COL='[FC Cologne]'
@@ -263,22 +262,22 @@ BMU='[Bayern Munich]'
 AUG='[FC Augsburg]'
 HAN='[Hannover 96]'
 
-match61=[BMU,WER]
-match62=[BDO,MAI]
-match63=[COL,DAR]
-match64=[HAM,ING]
-match65=[AUG,WOL]
-match66=[FRA,SCH]
-match67=[BMO,BLE]
-match68=[HBE,FRE]
-match69=[HOF,LPZ]
+match61=[BLE,LEI]
+match62=[BMO,COL]
+match63=[MAI,FRE]
+match64=[WOL,SCH]
+match65=[AUG,HBE]
+match66=[DAR,ING]
+match67=[BDO,BMU]
+match68=[HOF,HAM]
+match69=[WER,FRA]
 
 df=pd.read_csv('corners_append.csv')
 #PREPARE THE FILE TO RUN FUNCTIONS TO ADD COLUMNS OF LAST MATCHES PCT
 
 #filter chosen competitions
-competition_list=['SPANISH PRIMERA DIVISIÓN','BARCLAYS PREMIER LEAGUE','ENGLISH PREMIER LEAGUE','ITALIAN SERIE A','GERMAN BUNDESLIGA','FRENCH LIGUE 1']
-#competition_list=['ENGLISH LEAGUE CHAMPIONSHIP']
+#competition_list=['2014/2015 Italian Serie A','2014-2015 Barclays Premier League','2014/2015 Spanish Primera División','2014/15 German Bundesliga, 2014/2015 German Bundesliga','2015-2016 Barclays Premier League','2015/16 German Bundesliga, 2015/2016 German Bundesliga','2015/2016 Spanish Primera División','2015/2016 Italian Serie A','2016/2017 Spanish Primera División','2016/2017 German Bundesliga','2016/2017 Italian Serie A','2016-2017 Barclays Premier League']
+competition_list=['2016/2017 Spanish Primera División','2016/2017 German Bundesliga','2016/2017 Italian Serie A','2016-2017 Barclays Premier League']
 df = df[(df['competition'].isin(competition_list))]
 #remove any duplicate matches (id)
 df=df.drop_duplicates(subset='id',take_last=True)

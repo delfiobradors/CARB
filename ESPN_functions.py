@@ -12,14 +12,21 @@ def extract_commentary_ESPN(id):
     id=str(id)
     #try para evitar que pete el programa si no puede cargar bien la url
     try:
-        page = requests.get('http://www.espnfc.com/commentary/'+id+'/commentary.html')
+        #canvinov16
+        #page = requests.get('http://www.espnfc.com/commentary/'+id+'/commentary.html')
+        #tree = html.fromstring(page.text)
+        page = requests.get('http://www.espnfc.com/commentary?gameId='+id+'')
         tree = html.fromstring(page.text)
         #ANTES        
         #times = tree.xpath('//div[@class="timestamp"]/p/text()')
-        times = tree.xpath('//*[starts-with(@id, "'+id+'-comment")]/div[1]/p/text()')        
+        #canvinov16
+        #times = tree.xpath('//*[starts-with(@id, "'+id+'-comment")]/div[1]/p/text()')        
+        times = tree.xpath('//tr[@data-type="corner-kick"]/td[1]/text()')        
         #ANTES        
         #comments = tree.xpath('//div[@class="comment"]/p/text()')
-        comments = tree.xpath('//*[starts-with(@id, "'+id+'-comment")]/div[2]/p/text()')        
+        #canvinov16        
+        #comments = tree.xpath('//*[starts-with(@id, "'+id+'-comment")]/div[2]/p/text()')        
+        comments=tree.xpath('//tr[@data-type="corner-kick"]/td[3]/text()')        
         try:
             df = pd.DataFrame({'times':times, 'comments':comments})
         except:
@@ -37,35 +44,60 @@ def delete_last(a):
 def delete_first_last(a):
     return (a[1:-1])
 
+#canvinov16
+#remove after apostrophe
+def delete_after_sep(a):
+    sep = "'"
+    return(a.split(sep, 1)[0])
+
 #calculate minute of first corner
 def calculate_minc1(df):
     #remove the last two characters of "times" column
-    df.times=df.times.apply(delete_last)
+    #canvinov16    
+    #df.times=df.times.apply(delete_last)
+    df.times=df.times.apply(delete_after_sep)    
     #convert times to number, since they are a string
     df.times=df.times.convert_objects(convert_numeric=True)
     #filtering rows where comment string starts with 'Corner' and returning minimum time
-    return np.amin(df[df.comments.str.startswith('Corner')]).times
+    #return np.amin(df[df.comments.str.startswith('Corner')]).times
+    return np.amin(df.times)
 
 #Extract Match Statistics: teams, total corners
 def extract_statistics_ESPN(id):
     id=str(id)
-    page = requests.get('http://www.espnfc.com/gamecast/statistics/id/'+id+'/statistics.html')
+    #page = requests.get('http://www.espnfc.com/gamecast/statistics/id/'+id+'/statistics.html')
+    #tree = html.fromstring(page.text)
+    page = requests.get('http://www.espnfc.us/match?gameId='+id+'')
     tree = html.fromstring(page.text)
-    team_away = tree.xpath('//div[@class="team away"]/p/a/text()')#visitante
-    team_home=tree.xpath('//div[@class="team home"]/p/a/text()')#local
-    script=tree.xpath('//*[@id="matchcenter-'+id+'"]/div[1]/p[1]/span/script/text()')
-    try:
-        timestamp = float(script[0][52:65])
-        fecha=time.strftime("%a %d %b %Y %H:%M:%S GMT", time.gmtime(timestamp / 1000.0))
-    except:
-        fecha="UNKNOWN"
-    competicion = tree.xpath('//div[@class="match-details"]/p[@class="floatleft"]/text()')
-    try:
-        competicion= competicion[0].strip()
-    except:
-        competicion="ERR COMPETICION"
-    home_corners = tree.xpath('//td[@id="home-corner-kicks"]/text()')
-    away_corners = tree.xpath('//td[@id="away-corner-kicks"]/text()')
+    #team_away = tree.xpath('//div[@class="team away"]/p/a/text()')#visitante
+    #team_home=tree.xpath('//div[@class="team home"]/p/a/text()')#local
+    team_away = tree.xpath('//*[@id="custom-nav"]/header/div[2]/div[3]/div/div[2]/div/a/span[1]/text()')#visitante
+    team_home=tree.xpath('//*[@id="custom-nav"]/header/div[2]/div[1]/div/div[1]/div/a/span[1]/text()')#local
+    #script=tree.xpath('//*[@id="matchcenter-'+id+'"]/div[1]/p[1]/span/script/text()')
+    #try:
+    #    timestamp = float(script[0][52:65])
+    #    fecha=time.strftime("%a %d %b %Y %H:%M:%S GMT", time.gmtime(timestamp / 1000.0))
+    #except:
+    #    fecha="UNKNOWN"
+    
+    fecha=tree.xpath('//*[@id="gamepackage-game-information"]/article/div/ul[2]/li/div[1]/span/@data-date')
+    fecha=str(fecha[0])
+    fecha = fecha[0:10]
+    fecha=time.strptime(fecha, "%Y-%m-%d")  
+    fecha=time.strftime("%a %d %b %Y %00:%00:%00 GMT", fecha)    
+    
+    #competicion = tree.xpath('//div[@class="match-details"]/p[@class="floatleft"]/text()')
+    #try:
+    #    competicion= competicion[0].strip()
+    #except:
+    #    competicion="ERR COMPETICION"
+    #home_corners = tree.xpath('//td[@id="home-corner-kicks"]/text()')
+    #away_corners = tree.xpath('//td[@id="away-corner-kicks"]/text()')
+    
+    competicion = tree.xpath('//*[@id="custom-nav"]/header/div[1]/text()')
+    competicion= competicion[0].strip()
+    home_corners = tree.xpath('//*[@id="gamepackage-soccer-match-stats"]/div/div/div[2]/table/tbody/tr[5]/td[1]/text()')
+    away_corners = tree.xpath('//*[@id="gamepackage-soccer-match-stats"]/div/div/div[2]/table/tbody/tr[5]/td[3]/text()')
     return pd.Series([id,team_away,team_home,competicion,home_corners,away_corners,fecha],index=['id','team_home','team_away','competition','corners_home','corners_away','date'])
 
 #Put together the extracted info
@@ -236,18 +268,30 @@ datelist=(20151201,20151202,20151203,20151204,20151205,20151206,20151207,2015120
 several_dates(datelist,'corners_append.csv')
 
 #2016
-#datelist=(20160101,20160102,20160103,20160104,20160105,20160106,20160107,20160108,20160109,20160110,20160111,20160112,20160113,20160114,20160115,20160116,20160117,20160118,20160119,20160120,20160121,20160122,20160123,20160124,20160125,20160126,20160127,20160128,20160129,20160130,20160131)
-#several_dates(datelist,'corners_append.csv')
-datelist=(20160127,20160128,20160129,20160130,20160131)
+datelist=(20160101,20160102,20160103,20160104,20160105,20160106,20160107,20160108,20160109,20160110,20160111,20160112,20160113,20160114,20160115,20160116,20160117,20160118,20160119,20160120,20160121,20160122,20160123,20160124,20160125,20160126,20160127,20160128,20160129,20160130,20160131)
 several_dates(datelist,'corners_append.csv')
 datelist=(20160201,20160202,20160203,20160204,20160205,20160206,20160207,20160208,20160209,20160210,20160211,20160212,20160213,20160214,20160215,20160216,20160217,20160218,20160219,20160220,20160221,20160222,20160223,20160224,20160225,20160226,20160227,20160228,20160229,20160230,20160231)
 several_dates(datelist,'corners_append.csv')
-datelist=(20160301,20160302,20160303,20160304,20160305,20160306,20160307)
+datelist=(20160301,20160302,20160303,20160304,20160305,20160306,20160307,20160308,20160309,20160310,20160211,20160312,20160313,20160314,20160315,20160316,20160317,20160318,20160319,20160320,20160321,20160322,20160323,20160324,20160325,20160326,20160327,20160328,20160329,20160330,20160331)
 several_dates(datelist,'corners_append.csv')
+datelist=(20160401,20160402,20160403,20160404,20160405,20160406,20160407,20160408,20160409,20160410,20160211,20160412,20160413,20160414,20160415,20160416,20160417,20160418,20160419,20160420,20160421,20160422,20160423,20160424,20160425,20160426,20160427,20160428,20160429,20160430,20160431)
+several_dates(datelist,'corners_append.csv')
+datelist=(20160501,20160502,20160503,20160504,20160505,20160506,20160507,20160508,20160509,20160510,20160211,20160512,20160513,20160514,20160515,20160516,20160517,20160518,20160519,20160520,20160521,20160522,20160523,20160524,20160525,20160526,20160527,20160528,20160529,20160530,20160531)
+several_dates(datelist,'corners_append.csv')
+datelist=(20160601,20160602,20160603,20160604,20160605,20160606,20160607,20160608,20160609,20160610,20160211,20160612,20160613,20160614,20160615,20160616,20160617,20160618,20160619,20160620,20160621,20160622,20160623,20160624,20160625,20160626,20160627,20160628,20160629,20160630,20160631)
+several_dates(datelist,'corners_append.csv')
+datelist=(20160701,20160702,20160703,20160704,20160705,20160706,20160707,20160708,20160709,20160710,20160211,20160712,20160713,20160714,20160715,20160716,20160717,20160718,20160719,20160720,20160721,20160722,20160723,20160724,20160725,20160726,20160727,20160728,20160729,20160730,20160731)
+several_dates(datelist,'corners_append.csv')
+datelist=(20160801,20160802,20160803,20160804,20160805,20160806,20160807,20160808,20160809,20160810,20160211,20160812,20160813,20160814,20160815,20160816,20160817,20160818,20160819,20160820,20160821,20160822,20160823,20160824,20160825,20160826,20160827,20160828,20160829,20160830,20160831)
+several_dates(datelist,'corners_append.csv')
+datelist=(20160901,20160902,20160903,20160904,20160905,20160906,20160907,20160908,20160909,20160910,20160211,20160912,20160913,20160914,20160915,20160916,20160917,20160918,20160919,20160920,20160921,20160922,20160923,20160924,20160925,20160926,20160927,20160928,20160929,20160930,20160931)
+several_dates(datelist,'corners_append.csv')
+datelist=(20161001,20161002,20161003,20161004,20161005,20161006,20161007,20161008,20161009,20161010,20161011,20161012,20161013,20161014,20161015,20161016,20161017,20161018,20161019,20161020,20161021,20161022,20161023,201601024,20161025,20161026,20161027,20161028,20161029,20161030,20161031)
+several_dates(datelist,'corners_append.csv')
+
 '''
 
 
-datelist=(20160813,20160814,20160815,20160816,20160817,20160818)
+datelist=(20161101,20161102,20161103,20161104,20161105,20161106,20161107,20161108,20161109)
 several_dates(datelist,'corners_append.csv')
-datelist=(20160819,20160820,20160821,20160822)
-several_dates(datelist,'corners_append.csv')
+

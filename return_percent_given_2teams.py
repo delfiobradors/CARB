@@ -35,9 +35,9 @@ def filter_two_teams(df,team_list):
     #MIRO CASA:
     #x = df[(df['team_home']==team_list[0])]
     #MIRO AMBOS:
-    #x = df[(df['team_home']==team_list[0]) | (df['team_away']==team_list[1])]
+    x = df[(df['team_home']==team_list[0]) | (df['team_away']==team_list[1])]
     #MIRO FUERA:
-    x = df[(df['team_away']==team_list[1])]
+    #x = df[(df['team_away']==team_list[1])]
     #sort with the newest matches on top
     x=x.sort_index(by=['date'], ascending=[False])
     return x
@@ -60,7 +60,7 @@ df=pd.read_csv('corners_append.csv')
 #PREPARE THE FILE TO RUN FUNCTIONS TO ADD COLUMNS OF LAST MATCHES PCT
 
 #filter chosen competitions
-competition_list=['SPANISH PRIMERA DIVISIÓN','ENGLISH PREMIER LEAGUE','BARCLAYS PREMIER LEAGUE','ITALIAN SERIE A','GERMAN BUNDESLIGA','FRENCH LIGUE 1']
+competition_list=['2014/2015 Italian Serie A','2014-2015 Barclays Premier League','2014/2015 Spanish Primera División','2014/15 German Bundesliga, 2014/2015 German Bundesliga','2015-2016 Barclays Premier League','2015/16 German Bundesliga, 2015/2016 German Bundesliga','2015/2016 Spanish Primera División','2015/2016 Italian Serie A','2016/2017 Spanish Primera División','2016/2017 German Bundesliga','2016/2017 Italian Serie A','2016-2017 Barclays Premier League']
 #competition_list=['ENGLISH LEAGUE CHAMPIONSHIP']
 df = df[(df['competition'].isin(competition_list))]
 #remove any duplicate matches (id)
@@ -106,7 +106,7 @@ match1=[DEP,RBE]
 match2=[ESP,MAL]
 match3=[OSA,RSO]
 match4=[EIB,VAL]
-match5=[RMA,CEL]
+match5=[RMA,BAR]
 match6=[LEG,ATM]
 match7=[ALA,SPO]
 match8=[LPA,GRA]
@@ -174,7 +174,7 @@ HUL='[Hull City]'
 MID='[Middlesbrough]'
 BUR='[Burnley]'
 
-match41=[TOT,LIV]
+match41=[MAN,ARS]
 match42=[LEI,SWA]
 match43=[CPL,BMT]
 match44=[WFD,ARS]
@@ -226,7 +226,7 @@ for match in matches_list:
     print match
     print return_pct_last_matches(df,30,match)
     print len(filter_two_teams(df,match))
-print filter_two_teams(df,match29)
+print filter_two_teams(df,match41)
 #con el len() de esto podria mirar si tengo o no los 30 partidos
    
 #para intentar hacer el filtro de df a partir de una fecha
