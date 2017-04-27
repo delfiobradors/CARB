@@ -33,9 +33,9 @@ def filter_two_teams(df,team_list):
     #select rows where home team played as homoe and away team played as away
 
     #MIRO CASA:
-    #x = df[(df['team_home']==team_list[0])]
+    x = df[(df['team_home']==team_list[0])]
     #MIRO AMBOS:
-    x = df[(df['team_home']==team_list[0]) | (df['team_away']==team_list[1])]
+    #x = df[(df['team_home']==team_list[0]) | (df['team_away']==team_list[1])]
     #MIRO FUERA:
     #x = df[(df['team_away']==team_list[1])]
     #sort with the newest matches on top
@@ -60,15 +60,15 @@ df=pd.read_csv('corners_append.csv')
 #PREPARE THE FILE TO RUN FUNCTIONS TO ADD COLUMNS OF LAST MATCHES PCT
 
 #filter chosen competitions
-competition_list=['2014/2015 Italian Serie A','2014-2015 Barclays Premier League','2014/2015 Spanish Primera División','2014/15 German Bundesliga, 2014/2015 German Bundesliga','2015-2016 Barclays Premier League','2015/16 German Bundesliga, 2015/2016 German Bundesliga','2015/2016 Spanish Primera División','2015/2016 Italian Serie A','2016/2017 Spanish Primera División','2016/2017 German Bundesliga','2016/2017 Italian Serie A','2016-2017 Barclays Premier League']
-#competition_list=['ENGLISH LEAGUE CHAMPIONSHIP']
+#competition_list=['2014/2015 Italian Serie A','2014-2015 Barclays Premier League','2014/2015 Spanish Primera División','2014/15 German Bundesliga, 2014/2015 German Bundesliga','2015-2016 Barclays Premier League','2015/16 German Bundesliga, 2015/2016 German Bundesliga','2015/2016 Spanish Primera División','2015/2016 Italian Serie A','2016/2017 Spanish Primera División','2016/2017 German Bundesliga','2016/2017 Italian Serie A','2016-2017 Barclays Premier League']
+competition_list=['2016/2017 Spanish Primera División','2016/2017 German Bundesliga','2016/2017 Italian Serie A','2016-2017 Barclays Premier League']
 df = df[(df['competition'].isin(competition_list))]
 #remove any duplicate matches (id)
 df=df.drop_duplicates(subset='id',take_last=True)
 #drop matches without minc1
 df=df.dropna(subset = ['minc1'])
 #add column for corner before 9 true or false
-df['corner9']=df.minc1<11
+df['corner9']=df.minc1<10
 #convert dates to be able to sort and compare
 convert_dates(df)
 #reset indexes to be able to run the for loop
@@ -102,16 +102,17 @@ RMA='[Real Madrid]'
 RBE='[Real Betis]'
 LPA='[Las Palmas]'
 
-match1=[DEP,RBE]
-match2=[ESP,MAL]
-match3=[OSA,RSO]
-match4=[EIB,VAL]
-match5=[RMA,BAR]
-match6=[LEG,ATM]
-match7=[ALA,SPO]
-match8=[LPA,GRA]
-match9=[ATB,BAR]
-match10=[VIL,SEV]
+match1=[RBE,LPA]
+match2=[DEP,SEV]
+match3=[BAR,MAL]
+match4=[EIB,CEL]
+match5=[ATM,RMA]
+match6=[ALA,ESP]
+match7=[VAL,GRA]
+match8=[SPO,RSO]
+match9=[ATB,VIL]
+match10=[LEG,OSA]
+
 
 JUV='[Juventus]'
 NAP='[Napoli]'

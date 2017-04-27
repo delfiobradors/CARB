@@ -20,11 +20,13 @@ page = requests.get('http://www.espnfc.com/commentary?gameId='+id+'')
 tree = html.fromstring(page.text)
 #ANTES        
 #times = tree.xpath('//td[@class="timestamp"]/text()')
-times = tree.xpath('//tr[@data-type="corner-kick"]/td[1]/text()')
-#times = tree.xpath('//*[starts-with(@data-id, "comment")]/div[1]/p/text()')        
+#times = tree.xpath('//tr[@data-type="corner-kick"]/td[1]/text()')
+times = tree.xpath('//*[starts-with(@data-id, "comment")]/td[1]/text()')
+print times       
 #ANTES        
 #comments = tree.xpath('//td[@class="game-details"]/text()')
-comments=tree.xpath('//tr[@data-type="corner-kick"]/td[3]/text()')
+comments=tree.xpath('//*[starts-with(@data-id, "comment")]/td[3]/text()')
+print comments
 #comments = tree.xpath('//*[starts-with(@data-id, "game-details")]/text()')        
 df = pd.DataFrame({'times':times, 'comments':comments})
 print df
@@ -32,9 +34,14 @@ print df
 id=str(id)
 page = requests.get('http://www.espnfc.us/match?gameId='+id+'')
 tree = html.fromstring(page.text)
-team_away = tree.xpath('//*[@id="custom-nav"]/header/div[2]/div[3]/div/div[2]/div/a/span[1]/text()')#visitante
+team_home = tree.xpath('//*[@id="custom-nav"]/header/div[2]/div[3]/div/div[2]/div/a/span[1]/text()')#visitante
 #team_home=tree.xpath('//div[@class="team home"]/p/a/text()')#local
-team_home=tree.xpath('//*[@id="custom-nav"]/header/div[2]/div[1]/div/div[1]/div/a/span[1]/text()')#local
+team_away=tree.xpath('//*[@id="custom-nav"]/header/div[2]/div[1]/div/div[1]/div/a/span[1]/text()')#local
+print "Team home"
+print team_home
+print"teamaway"
+print team_away
+print id
 fecha=tree.xpath('//*[@id="gamepackage-game-information"]/article/div/ul[2]/li/div[1]/span/@data-date')
 fecha=str(fecha[0])
 fecha = fecha[0:10]
@@ -62,7 +69,19 @@ def delete_after_sep(a):
 df.times=df.times.apply(delete_after_sep)    
 #convert times to number, since they are a string
 df.times=df.times.convert_objects(convert_numeric=True)
+print df
+df=df.dropna(how='any')
+print df
+df.comments= df.comments.str.strip()
+print df
 #filtering rows where comment string starts with 'Corner' and returning minimum time
-print np.amin(df.times)
+print np.amin(df[df.comments.str.startswith('Corner')]).times
 
-    
+df=pd.read_csv('corners_append.csv')
+print df
+df.rename(columns={'team_home': 'team_away2'}, inplace=True)
+df.rename(columns={'team_away': 'team_home'}, inplace=True)
+df.rename(columns={'team_away2': 'team_away'}, inplace=True)
+df = df[['c1', 'competition', 'corners_away','corners_home','date','id','minc1','team_away','team_home']]
+print df
+df.to_csv('out3.csv',index=False,index_label=False)

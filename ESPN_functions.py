@@ -21,12 +21,14 @@ def extract_commentary_ESPN(id):
         #times = tree.xpath('//div[@class="timestamp"]/p/text()')
         #canvinov16
         #times = tree.xpath('//*[starts-with(@id, "'+id+'-comment")]/div[1]/p/text()')        
-        times = tree.xpath('//tr[@data-type="corner-kick"]/td[1]/text()')        
+        #times = tree.xpath('//tr[@data-type="corner-kick"]/td[1]/text()')  
+        times = tree.xpath('//*[starts-with(@data-id, "comment")]/td[1]/text()')
         #ANTES        
         #comments = tree.xpath('//div[@class="comment"]/p/text()')
         #canvinov16        
         #comments = tree.xpath('//*[starts-with(@id, "'+id+'-comment")]/div[2]/p/text()')        
-        comments=tree.xpath('//tr[@data-type="corner-kick"]/td[3]/text()')        
+        #comments=tree.xpath('//tr[@data-type="corner-kick"]/td[3]/text()')   
+        comments=tree.xpath('//*[starts-with(@data-id, "comment")]/td[3]/text()')
         try:
             df = pd.DataFrame({'times':times, 'comments':comments})
         except:
@@ -58,9 +60,11 @@ def calculate_minc1(df):
     df.times=df.times.apply(delete_after_sep)    
     #convert times to number, since they are a string
     df.times=df.times.convert_objects(convert_numeric=True)
+    df=df.dropna(how='any')
+    df.comments= df.comments.str.strip()
     #filtering rows where comment string starts with 'Corner' and returning minimum time
     #return np.amin(df[df.comments.str.startswith('Corner')]).times
-    return np.amin(df.times)
+    return np.amin(df[df.comments.str.startswith('Corner')]).times
 
 #Extract Match Statistics: teams, total corners
 def extract_statistics_ESPN(id):
@@ -71,8 +75,8 @@ def extract_statistics_ESPN(id):
     tree = html.fromstring(page.text)
     #team_away = tree.xpath('//div[@class="team away"]/p/a/text()')#visitante
     #team_home=tree.xpath('//div[@class="team home"]/p/a/text()')#local
-    team_away = tree.xpath('//*[@id="custom-nav"]/header/div[2]/div[3]/div/div[2]/div/a/span[1]/text()')#visitante
-    team_home=tree.xpath('//*[@id="custom-nav"]/header/div[2]/div[1]/div/div[1]/div/a/span[1]/text()')#local
+    team_home = tree.xpath('//*[@id="custom-nav"]/header/div[2]/div[3]/div/div[2]/div/a/span[1]/text()')#visitante
+    team_away=tree.xpath('//*[@id="custom-nav"]/header/div[2]/div[1]/div/div[1]/div/a/span[1]/text()')#local
     #script=tree.xpath('//*[@id="matchcenter-'+id+'"]/div[1]/p[1]/span/script/text()')
     #try:
     #    timestamp = float(script[0][52:65])
@@ -292,6 +296,7 @@ several_dates(datelist,'corners_append.csv')
 '''
 
 
-datelist=(20161101,20161102,20161103,20161104,20161105,20161106,20161107,20161108,20161109)
+#datelist=(20161101,20161102,20161103,20161104,20161105,20161106,20161107,20161108,20161109)
+datelist=(20170309,20170310,20170311,20170312,20170313,20170314,20170315,20170316)
 several_dates(datelist,'corners_append.csv')
 
